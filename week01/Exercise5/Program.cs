@@ -14,10 +14,7 @@ class Program
         PromptUserNumber();
         SquareNumber();
         DisplayResult();
-
     }
-
-
 
     static void DisplayWelcome()
     {   
