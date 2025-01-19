@@ -1,50 +1,72 @@
 using System;
+using System.Collections.Generic;
+using journal; //For working with lists
 
-class Program
+namespace Journal
 {
-    static string name;
-    static int number;
-    static int square;
-
-    static void Main(string[] args)
+    public class Program
     {
-        DisplayWelcome();
-        PromptUserName();
-        PromptUserNumber();
-        SquareNumber();
-        DisplayResult();
-    }
+        public static void Main(string[] args)
+        {
+            Journal myJournal = new Journal();
+            PromptGenerator myPromptgenerator = new PromptGenerator();
+            Console.WriteLine("\nWelcome to the Journal Program");
 
-    // Displays a welcome message
-    static void DisplayWelcome()
-    {
-        Console.WriteLine("Welcome to the program!");
-    }
+            while (true)
+            {   //Display menu options
+                
+                Console.WriteLine("\nPlease select one of the following choices:");
+                Console.WriteLine("1. Write");
+                Console.WriteLine("2. Display");
+                Console.WriteLine("3. Load");
+                Console.WriteLine("4. Save");
+                Console.WriteLine("5. Quit");
+                
+                Console.Write("What would you like to do? ");
+                string userInput = Console.ReadLine();
 
-    // Prompts the user for their name and stores it in the global variable 'name'
-    static void PromptUserName()
-    {
-        Console.Write("Please enter your name: ");
-        name = Console.ReadLine();
-    }
+                //convert input from string to integer
+                if (int.TryParse(userInput, out int choice))
+                {
+                    switch (choice)
+                    {
+                        case 1:
+                            string prompt = myPromptgenerator.GetRandomPrompt();
+                            Console.WriteLine($"{prompt}");
+                            string response = Console.ReadLine();
+                            //Create new entry and add to the journal
+                            Entry newEntry = new Entry(response, prompt, DateTime.Now.ToString("yyyy-MM-dd"));
+                            myJournal.AddEntry(newEntry);
+                            break;
+                        
+                        case 2:
+                            Console.WriteLine("");
+                            myJournal.DisplayAll();
+                            break;
 
-    // Prompts the user for their favorite number and stores it in the global variable 'number'
-    static void PromptUserNumber()
-    {
-        Console.Write("Please enter your favorite number: ");
-        number = int.Parse(Console.ReadLine());
-    }
+                        case 3:
+                            Console.WriteLine("What is the filename? ");
+                            string loadFilename = Console.ReadLine();
+                            myJournal.LoadFromFile(loadFilename);
+                            break;
+                        
+                        case 4:
+                            Console.Write("What is the filename? "); 
+                            string saveFilename = Console.ReadLine();
+                            myJournal.SaveToFile(saveFilename);
+                            break;  
 
-    // Calculates the square of the global variable 'number' and stores it in the global variable 'square'
-    static void SquareNumber()
-    {
-        square = number * number;
-    }
+                        case 5:
+                            Console.WriteLine("");
+                            return;
+                        
+                        default:
+                            break;
 
-    // Displays the result using the global variables 'name' and 'square'
-    static void DisplayResult()
-    {
-        Console.WriteLine($"Brother {name}, the square of your number is {square}.");
+                    }
+
+                }
+            }
+        }
     }
 }
-
