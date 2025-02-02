@@ -28,6 +28,7 @@ class Video
 
     public void DisplayInfo()
     {
+        Console.WriteLine();
         Console.WriteLine($"Title: {_title}");
         Console.WriteLine($"Author: {_videoAuthor}");
         Console.WriteLine($"Number of comments: {_comments.Count}");
